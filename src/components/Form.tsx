@@ -4,9 +4,9 @@ import { categories } from "../data/categories"
 export default function Form() {
 
   const [ activity, setActivity] = useState({
-    category: 2,
+    category: 1,
     name: '',
-    calories: 300
+    calories: 0
   })
 
   const handleChange = (e: ChangeEvent<HTMLSelectElement> | ChangeEvent<HTMLInputElement>) => {
@@ -16,6 +16,11 @@ export default function Form() {
       ...activity,
       [e.target.id] : isNumberField ? +e.target.value : e.target.value
     })
+  }
+
+  const isValidActivity =  () => {
+    const { name, calories } = activity
+    return name.trim() !== '' && calories > 0
   }
   return (
     
@@ -67,9 +72,9 @@ export default function Form() {
 
           <input 
             type="submit" 
-            value="Guardar actividad o guardar comida"
-            className="bg-gray-800 hover:bg-gray-900 w-full text-white font-bold p-2 rounded cursor-pointer uppercase" 
-          
+            value={ activity.category === 1 ? 'Guardar Comida' : 'Guardar Ejercicio'}
+            className="bg-gray-800 hover:bg-gray-900 w-full text-white font-bold p-2 rounded cursor-pointer uppercase disabled:opacity-10" 
+            disabled={!isValidActivity()}
           />
 
       </form>
